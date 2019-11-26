@@ -1,4 +1,4 @@
-import { removeCookie, writeCookie } from '../utils/cookie'
+import { readCookie, removeCookie, writeCookie } from '../utils/cookie'
 
 import { getAccountInfo } from './account'
 
@@ -71,8 +71,28 @@ export const establishSession = async (handleSetSession, requestToken) => {
 export const deauthentication = async () => {
     removeCookie('request_token')
     removeCookie('session_id')
+    removeCookie('account_id')
 
+    // force reload
     window.location.replace(localhostUrl)
+}
+
+export const establishSessionFromCookies =  async (handleSetSession) => {
+    const sessionId  = readCookie('session_id')
+    const accountId = readCookie('account_id')
+    
+    if(sessionId && accountId){
+        return handleSetSession({
+            sessionId: {
+                'session_id': sessionId
+            },
+            accountId: {
+                id: accountId
+            }
+        })
+    }
+    
+    return false
 }
  
  

@@ -4,7 +4,6 @@ import React, {useEffect, useState} from 'react'
 
 import { MovieCellComponent } from './MovieCellComponent'
 import PropTypes from 'prop-types'
-import { useCookies } from '../../hooks/useCookies'
 import useEffectExceptMount from '../../hooks/useEffectExceptMount'
 
 export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, options }) => {
@@ -15,6 +14,7 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
 
     useEffect(()=>{
         handleFetchDataChunck(setChunckData)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffectExceptMount(()=>{
@@ -72,7 +72,7 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
                 </tr>
             </thead>
             <tbody>
-                {data.map((value) => {
+                {data && data.map((value) => {
 
                     const movieId = value['id']
                     return <tr key={movieId}>

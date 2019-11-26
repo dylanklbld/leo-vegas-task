@@ -1,7 +1,8 @@
 import './App.css';
 
 import React, { useEffect, useState } from 'react';
-import { authentication, deauthentication, establishSession } from './api/session'
+import { addToFavorites, getFavorites, removeFromFavorites } from './api/favorites'
+import { authentication, deauthentication, establishSession, establishSessionFromCookies } from './api/session'
 import {getAllFavoriteIds, getAllWatchlistIds} from './utils/listIds'
 
 import { FavoriteMovies } from './views/FavoriteMovies'
@@ -12,13 +13,15 @@ import { SearchMoviesComponent } from './views/SearchMovies'
 import { WatchlistMovies } from './views/WatchList'
 import { fetchPopular } from './api/popular'
 import { getAccountInfo } from './api/account'
-import { getFavorites } from './api/favorites'
 
 function App() {
   const [sessionData, setSessionData] = useState(null)
-  
   const [favoriteIds, setFavoriteIds] = useState(null)
   const [watchlistIds, setWatchlistIds] = useState(null)
+
+  const trySetSessionFromCookies = async () => {
+   return await establishSessionFromCookies(setSessionData)
+  }
 
   const trySetSessionAfterRedirect = async () => {
     if (window && window.location.search) {
@@ -30,20 +33,36 @@ function App() {
     }
   }
 
-  const tryUpdateList = (movieId, status, list, updateList) => {
-    if(status){
-      updateList(list.filter(v=>v !== movieId))
-    } else {
-      updateList(list.concat([movieId]))
+  const trySetSession = async () => {
+    const success = await trySetSessionFromCookies()
+
+    console.log(success, "SUCCESS")
+
+    if(!success){
+      await trySetSessionAfterRedirect()
     }
   }
 
-  const tryUpdateFavorites = (movieId, status) => tryUpdateList(movieId, status, favoriteIds, setFavoriteIds)
+  const tryUpdateList = async (movieId, status, list, updateList, apiCallAdd, apiCallRemove) => {
+    if (status) {
+      try{
+        await apiCallRemove(sessionData && sessionData.sessionId['session_id'], sessionData && sessionData.accountId['id'], movieId)
+        updateList(list.filter(v => v !== movieId))
+      }catch (error) {
+        console.log(error)
+      }
+    } else {
+      apiCallAdd(sessionData && sessionData.sessionId['session_id'], sessionData && sessionData.accountId['id'], movieId).then(() =>
+        updateList(list.concat([movieId]))
+      ).catch(error => console.log(error))
+    }
+  }
+
+  const tryUpdateFavorites = (movieId, status) => tryUpdateList(movieId, status, favoriteIds, setFavoriteIds, addToFavorites, removeFromFavorites)
   const tryUpdateWatchlist = (movieId, status) => tryUpdateList(movieId, status, watchlistIds, setWatchlistIds)
 
   useEffect(() => {
-    // since we will be redirected from the portal
-    trySetSessionAfterRedirect()
+    trySetSession()
   }, [])
 
   useEffect(()=>{
@@ -63,8 +82,7 @@ function App() {
     } 
  }, [sessionData])
 
-
-
+ console.log("WTF IS GOING ON HERE")
   return (
     <div className="App">
       <body>
@@ -89,7 +107,7 @@ function App() {
         </div>
       </body>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

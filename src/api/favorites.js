@@ -26,28 +26,41 @@ export const getFavorites = async (accountId, sessionId, handleSetData, options 
 }
 
 export const addToFavorites = async (sessionId, accountId, movieId, isFavorite = true) => {
-    await fetch(
-        `${API}account/${accountId}/favorite?` + new URLSearchParams({
-            api_key: apiKey,
-            session_id: sessionId
-        }),
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "media_type": "movie",
-                "media_id": movieId,
-                "favorite": isFavorite
+    try {
+        return await fetch(
+            `${API}account/${accountId}/favorite?` + new URLSearchParams({
+                api_key: apiKey,
+                session_id: sessionId
+            }),
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "media_type": "movie",
+                    "media_id": movieId,
+                    "favorite": isFavorite
+                })
+            }
+        )
+            .then(response => {
+                if (response.status >= 400 && response.status < 600) {
+                    throw new Error("Bad response from server");
+                }
+
+                return response.json()
             })
-        }
-    )
-        .then(res => res.json())
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => console.log(error))
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log("ERROR")
+                throw error
+            })
+    } catch (err) {
+        throw err
+    }
 }
 
 export const removeFromFavorites = async (sessionId, accountId, movieId) => await addToFavorites(sessionId, accountId, movieId, false)
