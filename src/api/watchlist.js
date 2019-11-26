@@ -2,16 +2,12 @@
 const API = 'https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 
-export const getFavorites = async (accountId, sessionId, handleSetData, options = {}) => {
+export const getWatchlist = async (accountId, sessionId, handleSetData) => {
     return await fetch(
-        `${API}account/${accountId}/favorite/movies?` + new URLSearchParams(Object.assign({
+        `${API}account/${accountId}/watchlist/movies?` + new URLSearchParams({
             api_key: apiKey,
             session_id: sessionId
-        }, options.page
-            ? {
-                page: options.page
-            }
-            : {})),
+        }),
         {
             method: "GET",
         }
@@ -25,9 +21,10 @@ export const getFavorites = async (accountId, sessionId, handleSetData, options 
         .catch(error => console.log(error))
 }
 
-export const addToFavorites = async (sessionId, accountId, movieId, isFavorite = true) => {
+
+export const addToWatchlist = async (sessionId, accountId, movieId, watchlist = true) => {
     await fetch(
-        `${API}account/${accountId}/favorite?` + new URLSearchParams({
+        `${API}account/${accountId}/watchlist?` + new URLSearchParams({
             api_key: apiKey,
             session_id: sessionId
         }),
@@ -39,7 +36,7 @@ export const addToFavorites = async (sessionId, accountId, movieId, isFavorite =
             body: JSON.stringify({
                 "media_type": "movie",
                 "media_id": movieId,
-                "favorite": isFavorite
+                "watchlist": watchlist
             })
         }
     )
@@ -50,4 +47,4 @@ export const addToFavorites = async (sessionId, accountId, movieId, isFavorite =
         .catch(error => console.log(error))
 }
 
-export const removeFromFavorites = async (sessionId, accountId, movieId) => await addToFavorites(sessionId, accountId, movieId, false)
+export const removeFromWatchlist = async (sessionId, accountId, movieId) => await addToWatchlist(sessionId, accountId, movieId, false)

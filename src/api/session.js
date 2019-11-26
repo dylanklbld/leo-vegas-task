@@ -1,8 +1,11 @@
+import { removeCookie, writeCookie } from '../utils/cookie'
 
+import { getAccountInfo } from './account'
 const API='https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 
-const getMovieDbPermissionLink = (requestToken) => `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${`http://localhost:3000`}`
+const localhostUrl = `http://localhost:3000`
+const getMovieDbPermissionLink = (requestToken) => `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${localhostUrl}`
 
 const getRequestToken = async ()=>{
     const token = await fetch(
@@ -46,11 +49,29 @@ const getNewSessionId = async(requestToken)=>{
 
 export const authentication = async () => {
     const requestToken = await getRequestToken()
+    writeCookie('request_token', requestToken['request_token'])
+
     window.location.replace(getMovieDbPermissionLink(requestToken['request_token']))
 }
 
 export const establishSession = async (handleSetSession, requestToken) => {
     const sessionId = await getNewSessionId(requestToken)
-    handleSetSession(sessionId)
+    writeCookie('session_id', sessionId['session_id'])
+    
+    const accountId = await getAccountInfo(sessionId['session_id'])
+    writeCookie('account_id', accountId['id'])
+    
+    handleSetSession({
+        sessionId: sessionId['session_id'],
+        accountId: accountId['id']
+    })
 }
+
+export const deauthentication = async () => {
+    removeCookie('request_token')
+    removeCookie('session_id')
+
+    window.location.replace(localhostUrl)
+}
+ 
  

@@ -9,7 +9,7 @@ const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 const emptyString = ''
 
 
-export const SearchMoviesComponent = ()=>{
+export const SearchMoviesComponent = ({favoriteIds, watchlistIds, updateFavoritesList})=>{
     const [searchRequestFunction, setSearchRequestFunction] = useState(null)
     const [query, setQuery] = useState('')
 
@@ -21,7 +21,12 @@ export const SearchMoviesComponent = ()=>{
     }
 
     return <React.Fragment>
-                <SimpleSearchField onSearchValueChanged={changeSearchRequestFunction}/>
-                {searchRequestFunction && <ResultTableWrapper key={query} handleFetchDataChunck={searchRequestFunction}/>}
-            </React.Fragment>
+            <SimpleSearchField onSearchValueChanged={changeSearchRequestFunction}/>
+            {searchRequestFunction && 
+                <ResultTableWrapper key={query} 
+                    handleFetchDataChunck={searchRequestFunction} 
+                    favoritesUpdater={updateFavoritesList}
+                    favoriteIds={favoriteIds} 
+                    watchlistIds={watchlistIds}/>}
+        </React.Fragment>
 }

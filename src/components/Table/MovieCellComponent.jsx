@@ -7,17 +7,21 @@ const imagePath='https://image.tmdb.org/t/p/'
 const defaultSize='w500'
 
 export const MovieCellComponent = ({
+    movieId,
     posterPath,
     movieName,
-    isFavorite = false,
-    isInWatchlist = false
+    renderButtons
 }) => {
+    const toggleFavorites = () => {}
+    const toggleWatchList = () => {}
+
     return <div className="container">
         <div className="poster"><img
             className="fit-picture"
             src={`${imagePath}${defaultSize}${posterPath}`}
             alt={movieName}/></div>
-        <div className="watchlist">To w</div>
-        <div className="favorites">To f</div>
+            <React.Fragment>
+                {renderButtons(movieId)}
+            </React.Fragment>
     </div>
 }
