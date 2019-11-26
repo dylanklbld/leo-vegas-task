@@ -1,6 +1,7 @@
 import { removeCookie, writeCookie } from '../utils/cookie'
 
 import { getAccountInfo } from './account'
+
 const API='https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 
@@ -62,8 +63,8 @@ export const establishSession = async (handleSetSession, requestToken) => {
     writeCookie('account_id', accountId['id'])
     
     handleSetSession({
-        sessionId: sessionId['session_id'],
-        accountId: accountId['id']
+        sessionId,
+        accountId
     })
 }
 

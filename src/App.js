@@ -15,18 +15,17 @@ import { getAccountInfo } from './api/account'
 import { getFavorites } from './api/favorites'
 
 function App() {
-  const [accountData, setAccountData] = useState(null)
-  const [sessionIdData, setSessionIdData] = useState(null)
+  const [sessionData, setSessionData] = useState(null)
   
   const [favoriteIds, setFavoriteIds] = useState(null)
   const [watchlistIds, setWatchlistIds] = useState(null)
 
-  const trySetSessionAfterRedirect = () => {
+  const trySetSessionAfterRedirect = async () => {
     if (window && window.location.search) {
       const url = new URL(window.location.href)
 
       if (url.searchParams && url.searchParams.get("request_token")) {
-        establishSession(setSessionIdData, url.searchParams.get("request_token"))
+        await establishSession(setSessionData, url.searchParams.get("request_token"))
       }
     }
   }
@@ -47,39 +46,22 @@ function App() {
     trySetSessionAfterRedirect()
   }, [])
 
-  useEffect(() => {
-    if (sessionIdData !== null && sessionIdData.success) {
-      // save into cookies maybe writeSessionIdIntoCookies()
-      const account = async () => {
-        const accountData = await getAccountInfo(sessionIdData['session_id'])
-        
-        console.log('rerender sessionIdData')
-        setAccountData(accountData)
-      }
-
-      account()
-    }
-  }, [sessionIdData])
-
   useEffect(()=>{
-    const accountId = accountData && accountData['id']
-    const sessionId =  sessionIdData && sessionIdData['session_id']
-
-     
-    console.log('rerender accountData')
+    const accountId = sessionData && sessionData.accountId['id']
+    const sessionId =  sessionData && sessionData.sessionId['session_id']
     
     if(accountId && sessionId) {
-         const getIds = async () =>{
-             const favoriteIds = await getAllFavoriteIds(accountId, sessionId)
-             const watchlistIds = await getAllWatchlistIds(accountId, sessionId)
+      const getIds = async () =>{
+          const favoriteIds = await getAllFavoriteIds(accountId, sessionId)
+          const watchlistIds = await getAllWatchlistIds(accountId, sessionId)
 
-             setFavoriteIds(favoriteIds)
-             setWatchlistIds(watchlistIds)
-         }    
-         
-         getIds()
-     } 
- }, [accountData])
+          setFavoriteIds(favoriteIds)
+          setWatchlistIds(watchlistIds)
+      }    
+
+      getIds()
+    } 
+ }, [sessionData])
 
 
 
@@ -87,7 +69,7 @@ function App() {
     <div className="App">
       <body>
         <div>
-          {!sessionIdData ? <button onClick={async () => {
+          {!sessionData ? <button onClick={async () => {
             await authentication()
           }}> Give Access To Application</button>  :
 
@@ -102,8 +84,7 @@ function App() {
               </React.Fragment>
             : (searchResultData && <ResultTable data={searchResultData.results}/>)} */}
           {<SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites }} />}
-          {!accountData && sessionIdData && <PopularMoviesTable />}
-          {sessionIdData && accountData && accountData['id'] && <FavoriteMovies sessionId={sessionIdData['session_id']} accountId={accountData['id']}/>}
+          {sessionData && <FavoriteMovies sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']}/>}
           {/* {accountData && accountData['id'] && <WatchlistMovies sessionId={sessionIdData['session_id']} accountId={accountData['id']} />} */}
         </div>
       </body>

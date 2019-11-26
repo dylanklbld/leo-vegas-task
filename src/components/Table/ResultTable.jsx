@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react'
 import { MovieCellComponent } from './MovieCellComponent'
 import PropTypes from 'prop-types'
 import { useCookies } from '../../hooks/useCookies'
+import useEffectExceptMount from '../../hooks/useEffectExceptMount'
 
 export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, options }) => {
     const [chunckData, setChunckData] = useState(null)
@@ -14,9 +15,9 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
 
     useEffect(()=>{
         handleFetchDataChunck(setChunckData)
-    }, [handleFetchDataChunck])
+    }, [])
 
-    useEffect(()=>{
+    useEffectExceptMount(()=>{
         if(chunckData){
             setFullData(fullData.concat(chunckData.results))
         }

@@ -12,9 +12,6 @@ export const MovieCellComponent = ({
     movieName,
     renderButtons
 }) => {
-    const toggleFavorites = () => {}
-    const toggleWatchList = () => {}
-
     return <div className="container">
         <div className="poster"><img
             className="fit-picture"

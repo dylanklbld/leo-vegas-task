@@ -3,7 +3,6 @@ import {ResultTableComponent, ResultTableWrapper} from '../components/Table/Resu
 
 import {fetchPopular} from '../api/popular'
 import useDebounce from '../hooks/useDebounce'
-import useEffectExceptMount from '../hooks/useEffectExceptMount'
 
 const API='https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
