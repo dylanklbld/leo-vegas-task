@@ -19,9 +19,9 @@ export const SimpleSearchField = ({onSearchValueChanged}) => {
         <div className="leo-task-search-field">
             <span>search icon</span>
             <input className="leo-task-search-input-field" value={searchValue} onChange={(e)=>{
-                if(e.target.value.trim() !== searchValue.trim()){
-                    setSearchValue(e.target.value.trim())
-                }
+                //if(e.target.value.trim() !== searchValue.trim()){
+                    setSearchValue(e.target.value)
+                //}
             }}/>
             <div></div>
         </div>

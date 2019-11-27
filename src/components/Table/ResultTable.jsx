@@ -27,7 +27,7 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
     }, [chunckData])
 
 
-    return fullData && <ResultTableComponent {...{isBusy, favoriteIds, watchlistIds, favoritesUpdater}} 
+    return fullData && <ResultTableComponent {...{title, isBusy, favoriteIds, watchlistIds, favoritesUpdater}} 
         data={fullData} 
         renderLoadingButton={()=>(
            page < totalPages ? <button onClick={async ()=>{
@@ -75,7 +75,6 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
             </thead>
             <tbody>
                 {data && data.map((value) => {
-
                     const movieId = value && value['id'] || 0
                     return <tr key={movieId}>
                         <td data-label="Movie">
@@ -101,4 +100,10 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
         {renderLoadingButton && renderLoadingButton()}
         
     </React.Fragment>
+}
+
+ResultTableComponent.propTypes={
+    title: PropTypes.string.isRequired,
+    data: PropTypes.array.isRequired,
+    handleFetchDataChunck: PropTypes.func.isRequired
 }

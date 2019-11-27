@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render empty 1`] = `
+<div>
+  <table>
+    <caption>
+      Empty
+    </caption>
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          Movie
+        </th>
+        <th
+          scope="col"
+        >
+          Overview
+        </th>
+        <th
+          scope="col"
+        >
+          Rating
+        </th>
+        <th
+          scope="col"
+        >
+          Genres
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+  <div>
+    Done
+  </div>
+</div>
+`;
+
+exports[`should render multi page table 1`] = `
+<div>
+  <table>
+    <caption>
+      Empty
+    </caption>
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          Movie
+        </th>
+        <th
+          scope="col"
+        >
+          Overview
+        </th>
+        <th
+          scope="col"
+        >
+          Rating
+        </th>
+        <th
+          scope="col"
+        >
+          Genres
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+  <div>
+    Done
+  </div>
+</div>
+`;
+
+exports[`should render one page table 1`] = `
+<div>
+  <table>
+    <caption>
+      One page
+    </caption>
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          Movie
+        </th>
+        <th
+          scope="col"
+        >
+          Overview
+        </th>
+        <th
+          scope="col"
+        >
+          Rating
+        </th>
+        <th
+          scope="col"
+        >
+          Genres
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          data-label="Movie"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="poster"
+            >
+              <img
+                alt="Naked Gun 33⅓: The Final Insult"
+                class="fit-picture"
+                src="https://image.tmdb.org/t/p/w500/k3F8N3jeqXOpm1qjY7mL8O6vdx.jpg"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          data-label="Overview"
+        >
+          Frank Drebin is persuaded out of retirement to go undercover in a state prison. There he is to find out what top terrorist, Rocco, has planned for when he escapes. Frank's wife, Jane, is desperate for a baby.. this adds to Frank's problems. A host of celebrities at the Academy awards ceremony are humiliated by Frank as he blunders his way trying to foil Rocco.
+        </td>
+        <td
+          data-label="Rating"
+        >
+          6.5
+        </td>
+        <td
+          data-label="Genres"
+        />
+      </tr>
+      <tr>
+        <td
+          data-label="Movie"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="poster"
+            >
+              <img
+                alt="The Naked Gun 2½: The Smell of Fear"
+                class="fit-picture"
+                src="https://image.tmdb.org/t/p/w500/qrjwY4wXu54rhpuwrfq7lojGMka.jpg"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          data-label="Overview"
+        >
+          Bumbling cop Frank Drebin is out to foil the big boys in the energy industry, who intend to suppress technology that will put them out of business.
+        </td>
+        <td
+          data-label="Rating"
+        >
+          6.8
+        </td>
+        <td
+          data-label="Genres"
+        />
+      </tr>
+      <tr>
+        <td
+          data-label="Movie"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="poster"
+            >
+              <img
+                alt="The Naked Gun: From the Files of Police Squad!"
+                class="fit-picture"
+                src="https://image.tmdb.org/t/p/w500/gajZQkZjVXPuLJUMoEk1eVeZz61.jpg"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          data-label="Overview"
+        >
+          When the incompetent Officer Frank Drebin seeks the ruthless killer of his partner, he stumbles upon an attempt to assassinate Queen Elizabeth.
+        </td>
+        <td
+          data-label="Rating"
+        >
+          7.2
+        </td>
+        <td
+          data-label="Genres"
+        />
+      </tr>
+      <tr>
+        <td
+          data-label="Movie"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="poster"
+            >
+              <img
+                alt="Naked Gun"
+                class="fit-picture"
+                src="https://image.tmdb.org/t/p/w500/n3cEMI1HnJn70V2msIawX8UM5vS.jpg"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          data-label="Overview"
+        >
+          Don Pablo Salazar steals a fortune in jewels from an Indian tribe and an Aztec medicine man puts a curse on the jewels until they are returned. Years later, an American insurance man promises to deliver the Salazar fortune to the rightful heir...
+        </td>
+        <td
+          data-label="Rating"
+        >
+          9
+        </td>
+        <td
+          data-label="Genres"
+        />
+      </tr>
+      <tr>
+        <td
+          data-label="Movie"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="poster"
+            >
+              <img
+                alt="裸女と拳銃"
+                class="fit-picture"
+                src="https://image.tmdb.org/t/p/w500/3i1JU9RaStlcroyGqYmRsIIn1xv.jpg"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          data-label="Overview"
+        >
+          A Tokyo newspaper reporter goes after the Japanese king of cocaine trafficking but he's tricked by a woman who works for the gangster and gets framed for a murder he didn't commit.
+        </td>
+        <td
+          data-label="Rating"
+        >
+          0
+        </td>
+        <td
+          data-label="Genres"
+        />
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    Done
+  </div>
+</div>
+`;
