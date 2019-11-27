@@ -1,7 +1,8 @@
 import './App.css';
 
 import React, { useEffect, useState } from 'react';
-import { addToFavorites, getFavorites, removeFromFavorites } from './api/favorites'
+import { addToFavorites, removeFromFavorites } from './api/favorites'
+import { addToWatchlist, removeFromWatchlist } from './api/watchlist'
 import { authentication, deauthentication, establishSession, establishSessionFromCookies } from './api/session'
 import {getAllFavoriteIds, getAllWatchlistIds} from './utils/listIds'
 
@@ -52,14 +53,19 @@ function App() {
         console.log(error)
       }
     } else {
-      apiCallAdd(sessionData && sessionData.sessionId['session_id'], sessionData && sessionData.accountId['id'], movieId).then(() =>
+      try{
+        await apiCallAdd(sessionData && sessionData.sessionId['session_id'], sessionData && sessionData.accountId['id'], movieId)
         updateList(list.concat([movieId]))
-      ).catch(error => console.log(error))
+      }catch (error) {
+        console.log(error)
+      }
     }
   }
 
+  
+
   const tryUpdateFavorites = (movieId, status) => tryUpdateList(movieId, status, favoriteIds, setFavoriteIds, addToFavorites, removeFromFavorites)
-  const tryUpdateWatchlist = (movieId, status) => tryUpdateList(movieId, status, watchlistIds, setWatchlistIds)
+  const tryUpdateWatchlist = (movieId, status) => tryUpdateList(movieId, status, watchlistIds, setWatchlistIds, addToWatchlist, removeFromWatchlist)
 
   useEffect(() => {
     trySetSession()
@@ -102,7 +108,7 @@ function App() {
               </React.Fragment>
             : (searchResultData && <ResultTable data={searchResultData.results}/>)} */}
           {<SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites }} />}
-          {sessionData && <FavoriteMovies sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']}/>}
+          {/* {sessionData && <FavoriteMovies sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']}/>} */}
           {/* {accountData && accountData['id'] && <WatchlistMovies sessionId={sessionIdData['session_id']} accountId={accountData['id']} />} */}
         </div>
       </body>

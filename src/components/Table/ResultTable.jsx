@@ -12,6 +12,8 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
     const [page, setPage] = useState(1)    
     const [isBusy, setIsBusy] = useState(false)
 
+    const [totalPages, setTotalPages] = useState(1)
+
     useEffect(()=>{
         handleFetchDataChunck(setChunckData)
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -19,20 +21,21 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
 
     useEffectExceptMount(()=>{
         if(chunckData){
+            setTotalPages(chunckData['total_pages'])
             setFullData(fullData.concat(chunckData.results))
         }
     }, [chunckData])
 
 
-    return fullData && <ResultTableComponent data={fullData} {...{isBusy, favoriteIds, watchlistIds, favoritesUpdater}} 
-    
+    return fullData && <ResultTableComponent {...{isBusy, favoriteIds, watchlistIds, favoritesUpdater}} 
+        data={fullData} 
         renderLoadingButton={()=>(
-            <button onClick={async ()=>{
+           page < totalPages ? <button onClick={async ()=>{
                 setIsBusy(true)
                 setPage(page + 1)
                 await handleFetchDataChunck(setChunckData, Object.assign({page: page+1}, options))
                 setIsBusy(false)
-            }}>Load more...</button>
+            }}>Load more...</button> : <div>Done</div>
     )}/>
 }
 
@@ -45,7 +48,7 @@ const WatchlistButton = ({isInWatchlist, movieId, toggleFavorites=()=>{}}) => {
     return <div className="watchlist">
         <button onClick={() => toggleFavorites(movieId, isInWatchlist)}>
             {isInWatchlist && 'already in watchlist'}
-            WATCHLIST
+            {isInWatchlist ? '\u2B50' : '\u2744'}
         </button>
     </div>
 }
@@ -53,8 +56,7 @@ const WatchlistButton = ({isInWatchlist, movieId, toggleFavorites=()=>{}}) => {
 const FavoritesButton = ({isFavorite, movieId, toggleFavorites=()=>{}}) => {
     return  <div className="favorites">
     <button onClick={() => toggleFavorites(movieId, isFavorite)}>
-        {isFavorite && 'already in favorite'}
-        FAV
+        {isFavorite ? '\u2764' : '\u1F5A4'}
     </button>
 </div>
 }
@@ -74,7 +76,7 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
             <tbody>
                 {data && data.map((value) => {
 
-                    const movieId = value['id']
+                    const movieId = value && value['id'] || 0
                     return <tr key={movieId}>
                         <td data-label="Movie">
                             <MovieCellComponent 

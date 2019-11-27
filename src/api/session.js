@@ -48,6 +48,32 @@ const getNewSessionId = async(requestToken)=>{
     return sessionId
 }
 
+const deleteSession = async (sessionId) => {
+    return await fetch(
+        `${API}authentication/session?`  + new URLSearchParams({
+            api_key: apiKey
+        }),
+        {
+            method: "DELETE",
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({session_id: sessionId})
+        }
+        )
+        .then(res => res.json())
+        .then(response =>
+            response
+        )
+        .catch(error => console.log(error))
+}
+
+const checkStatus = (response)=> {
+    if (response.success === false){
+        throw new Error()
+    }
+}
+
 export const authentication = async () => {
     const requestToken = await getRequestToken()
     writeCookie('request_token', requestToken['request_token'])
@@ -70,6 +96,7 @@ export const establishSession = async (handleSetSession, requestToken) => {
 
 export const deauthentication = async () => {
     removeCookie('request_token')
+    await deleteSession(readCookie('session_id'))
     removeCookie('session_id')
     removeCookie('account_id')
 
