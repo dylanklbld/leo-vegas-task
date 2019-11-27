@@ -4,7 +4,9 @@ import React, {useEffect, useState} from 'react'
 
 import { MovieCellComponent } from './MovieCellComponent'
 import PropTypes from 'prop-types'
+import ScrollToTopButton from '../ScrollToButton'
 import useEffectExceptMount from '../../hooks/useEffectExceptMount'
+import {useIsInView} from '../../hooks/useIsInVIew'
 
 export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, options }) => {
     const [chunckData, setChunckData] = useState(null)
@@ -62,7 +64,15 @@ const FavoritesButton = ({isFavorite, movieId, toggleFavorites=()=>{}}) => {
 }
 
 export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy = false, favoriteIds = null, watchlistIds = null, favoritesUpdater}) => {
+    const [renderToTopButton, setRenderToTopButton] = useState(false)
+    const [refTopDiv, inView] = useIsInView()
+    
+    React.useEffect(() => {
+        setRenderToTopButton(!inView)
+      }, [inView])
+
     return <React.Fragment>
+        <div ref={refTopDiv}/>
         <table>
             <caption>{title}</caption>
             <thead>
@@ -98,6 +108,7 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
         </table>
         {isBusy && <div>UUUUUUUUUUUU FUKKEN BUSY BUTTON</div>}
         {renderLoadingButton && renderLoadingButton()}
+        {renderToTopButton && <ScrollToTopButton />}
         
     </React.Fragment>
 }
