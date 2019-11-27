@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScrollToButton should render correctly 1`] = `
+<div>
+  <button
+    class="Hanswuarst"
+  >
+    <span
+      class="text"
+    >
+      backToTopButton
+    </span>
+    <i
+      aria-hidden="true"
+      class="fa fa-arrow-up"
+    />
+  </button>
+</div>
+`;

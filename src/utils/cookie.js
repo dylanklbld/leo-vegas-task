@@ -5,6 +5,7 @@ export const writeCookie = (name, value, options={}) => {
     }
     
     options = Object.entries(options).reduce((str, [k, v]) => `${str}; ${k}=${v}`, '')
+    console.log(name, name + '=' + encodeURIComponent(value) + options )
     document.cookie = name + '=' + encodeURIComponent(value) + options
 }
 

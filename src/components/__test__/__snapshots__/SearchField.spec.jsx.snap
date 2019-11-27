@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should call onSearchRequestDone 1`] = `
+<div>
+  <div
+    class="leo-task-search-field"
+  >
+    <span>
+      search icon
+    </span>
+    <input
+      class="leo-task-search-input-field"
+      value=""
+    />
+    <div />
+  </div>
+</div>
+`;
+
+exports[`should render 1`] = `
+<div>
+  <div
+    class="leo-task-search-field"
+  >
+    <span>
+      search icon
+    </span>
+    <input
+      class="leo-task-search-input-field"
+      value=""
+    />
+    <div />
+  </div>
+</div>
+`;
