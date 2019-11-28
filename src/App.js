@@ -1,5 +1,6 @@
 import './App.css';
 
+import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { addToFavorites, removeFromFavorites } from './api/favorites'
 import { addToWatchlist, removeFromWatchlist } from './api/watchlist'
@@ -17,8 +18,10 @@ import { getAccountInfo } from './api/account'
 
 function App() {
   const [sessionData, setSessionData] = useState(null)
+  const [errors, setErrors] = useState(null)
   const [favoriteIds, setFavoriteIds] = useState(null)
   const [watchlistIds, setWatchlistIds] = useState(null)
+
 
   const trySetSessionFromCookies = async () => {
    return await establishSessionFromCookies(setSessionData)
@@ -62,8 +65,6 @@ function App() {
     }
   }
 
-  
-
   const tryUpdateFavorites = (movieId, status) => tryUpdateList(movieId, status, favoriteIds, setFavoriteIds, addToFavorites, removeFromFavorites)
   const tryUpdateWatchlist = (movieId, status) => tryUpdateList(movieId, status, watchlistIds, setWatchlistIds, addToWatchlist, removeFromWatchlist)
 
@@ -88,28 +89,49 @@ function App() {
     } 
  }, [sessionData])
 
- console.log("WTF IS GOING ON HERE")
   return (
     <div className="App">
       <body>
-        <div>
-          {!sessionData ? <button onClick={async () => {
+        <div className =".wrapper">
+          {!sessionData ? <button className="btn" onClick={async () => {
             await authentication()
           }}> Give Access To Application</button>  :
 
-          <button onClick={async () => {
+          <button className="btn" onClick={async () => {
             await deauthentication()
           }}> Reset</button>}
 
+          <div className=".main-area ">
           {/* {sessionIdData && sessionIdData.success
             ? <React.Fragment>
                 <SearchField onSearchRequestDone={setSearchResultData}/>
                 <ResultTable data={searchResultData}/>
               </React.Fragment>
             : (searchResultData && <ResultTable data={searchResultData.results}/>)} */}
-          {<SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites }} />}
+          {/* {<SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites, updateWatchlist: tryUpdateWatchlist }} />} */}
           {/* {sessionData && <FavoriteMovies sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']}/>} */}
           {/* {accountData && accountData['id'] && <WatchlistMovies sessionId={sessionIdData['session_id']} accountId={accountData['id']} />} */}
+        </div>
+        <Router>
+          <div>
+            <h2>Welcome to React Router Tutorial</h2>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <ul className="navbar-nav mr-auto">
+              <li><Link to={'/'} className="nav-link"> Home </Link></li>
+              <li><Link to={'/search'} className="nav-link">Search</Link></li>
+              <li><Link to={'/watchlist'} className="nav-link">Watchlist</Link></li>
+              <li><Link to={'/favorites'} className="nav-link">Favorite Movies</Link></li>
+            </ul>
+            </nav>
+            <hr />
+            <Switch>
+                <Route exact path='/' component={()=><PopularMoviesTable />} />
+                <Route path='/search' component={()=><SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites, updateWatchlist: tryUpdateWatchlist }} />} />
+                <Route path='/watchlist' component={()=><PopularMoviesTable />} />
+                <Route path='/favorites' component={()=><PopularMoviesTable />} />
+            </Switch>
+          </div>
+        </Router>
         </div>
       </body>
     </div>

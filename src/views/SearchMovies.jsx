@@ -4,7 +4,7 @@ import { ResultTableWrapper } from '../components/Table/ResultTable'
 import {SimpleSearchField} from '../components/SearchField'
 import {search} from '../api/search'
 
-export const SearchMoviesComponent = ({favoriteIds, watchlistIds, updateFavoritesList})=>{
+export const SearchMoviesComponent = ({favoriteIds, watchlistIds, updateFavoritesList, updateWatchlist})=>{
     const [searchRequestFunction, setSearchRequestFunction] = useState(null)
     const [query, setQuery] = useState('')
 
@@ -21,6 +21,7 @@ export const SearchMoviesComponent = ({favoriteIds, watchlistIds, updateFavorite
                 <ResultTableWrapper key={query} 
                     handleFetchDataChunck={searchRequestFunction} 
                     favoritesUpdater={updateFavoritesList}
+                    watchlistUpdater={updateWatchlist}
                     favoriteIds={favoriteIds} 
                     watchlistIds={watchlistIds}/>}
         </React.Fragment>

@@ -8,7 +8,7 @@ import ScrollToTopButton from '../ScrollToButton'
 import useEffectExceptMount from '../../hooks/useEffectExceptMount'
 import {useIsInView} from '../../hooks/useIsInVIew'
 
-export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, options }) => {
+export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, watchlistUpdater, options }) => {
     const [chunckData, setChunckData] = useState(null)
     const [fullData, setFullData] = useState([])
     const [page, setPage] = useState(1)    
@@ -29,7 +29,7 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
     }, [chunckData])
 
 
-    return fullData && <ResultTableComponent {...{title, isBusy, favoriteIds, watchlistIds, favoritesUpdater}} 
+    return fullData && <ResultTableComponent {...{title, isBusy, favoriteIds, watchlistIds, favoritesUpdater, watchlistUpdater}} 
         data={fullData} 
         renderLoadingButton={()=>(
            page < totalPages ? <button onClick={async ()=>{
@@ -46,24 +46,27 @@ ResultTableWrapper.propTypes={
     handleFetchDataChunck: PropTypes.func.isRequired
 }
 
-const WatchlistButton = ({isInWatchlist, movieId, toggleFavorites=()=>{}}) => {
+const WatchlistButton = ({isInWatchlist, movieId, toggleInList=()=>{}}) => {
     return <div className="watchlist">
-        <button onClick={() => toggleFavorites(movieId, isInWatchlist)}>
-            {isInWatchlist && 'already in watchlist'}
-            {isInWatchlist ? '\u2B50' : '\u2744'}
-        </button>
+        <button className={isInWatchlist ? "in-watchlist" : "not-in-watchlist"} onClick={() => toggleInList(movieId, isInWatchlist)} />
     </div>
 }
 
-const FavoritesButton = ({isFavorite, movieId, toggleFavorites=()=>{}}) => {
-    return  <div className="favorites">
-    <button onClick={() => toggleFavorites(movieId, isFavorite)}>
-        {isFavorite ? '\u2764' : '\u1F5A4'}
-    </button>
-</div>
+const FavoritesButton = ({isFavorite, movieId, toggleInList=()=>{}}) => {
+    return (
+      <div className="favorites">
+        <button onClick={() => toggleInList(movieId, isFavorite)}>
+          {isFavorite ? (
+            <i class="fa fa-heart" aria-hidden="true"></i>
+          ) : (
+            <i class="fa" aria-hidden="true"></i>
+          )}
+        </button>
+      </div>
+    );
 }
 
-export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy = false, favoriteIds = null, watchlistIds = null, favoritesUpdater}) => {
+export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy = false, favoriteIds = null, watchlistIds = null, favoritesUpdater, watchlistUpdater}) => {
     const [renderToTopButton, setRenderToTopButton] = useState(false)
     const [refTopDiv, inView] = useIsInView()
     
@@ -93,8 +96,8 @@ export const ResultTableComponent = ({title, data, renderLoadingButton, isBusy =
                                 movieName={value['original_title']}  
                                 renderButtons={()=>
                                     <React.Fragment>
-                                        {favoriteIds && <FavoritesButton toggleFavorites={favoritesUpdater} isFavorite={favoriteIds.includes(movieId)} {...{movieId}}/>}
-                                        {watchlistIds && <WatchlistButton isInWatchlist={watchlistIds.includes(movieId)} {...{movieId}}/>}
+                                        {favoriteIds && <FavoritesButton toggleInList={favoritesUpdater} isFavorite={favoriteIds.includes(movieId)} {...{movieId}}/>}
+                                        {watchlistIds && <WatchlistButton toggleInList={watchlistUpdater} isInWatchlist={watchlistIds.includes(movieId)} {...{movieId}}/>}
                                     </React.Fragment>
                                 }
                             />

@@ -1,3 +1,5 @@
+import "../styles/searchfield.css"
+
 import React, {useState} from 'react'
 
 import useDebounce from '../hooks/useDebounce'
@@ -10,7 +12,6 @@ export const SimpleSearchField = ({onSearchValueChanged}) => {
     const debouncedSearchValue = useDebounce(searchValue, 500)
 
     useEffectExceptMount(()=>{
-        console.log(debouncedSearchValue)
         debouncedSearchValue &&
         onSearchValueChanged(debouncedSearchValue)
     }, [debouncedSearchValue])
@@ -18,7 +19,7 @@ export const SimpleSearchField = ({onSearchValueChanged}) => {
     return <React.Fragment>
         <div className="leo-task-search-field">
             <span>search icon</span>
-            <input className="leo-task-search-input-field" value={searchValue} onChange={(e)=>{
+            <input type="text" className="leo-task-search-input-field" placeholder="Search for a movie..." value={searchValue} onChange={(e)=>{
                 //if(e.target.value.trim() !== searchValue.trim()){
                     setSearchValue(e.target.value)
                 //}
