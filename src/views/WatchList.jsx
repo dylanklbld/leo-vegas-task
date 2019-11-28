@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import {ResultTableComponent, ResultTableWrapper} from '../components/Table/ResultTable'
+import React, { useEffect, useState } from 'react'
+import { ResultTableComponent, ResultTableWrapper } from '../components/Table/ResultTable'
 
-import {SimpleSearchField} from '../components/SearchField'
+import { SimpleSearchField } from '../components/SearchField'
 import { getWatchlist } from '../api/watchlist'
+import useEffectExceptMount from '../hooks/useEffectExceptMount'
 
-const API='https://api.themoviedb.org/3/'
-const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
-const emptyString = ''
-
-
-export const WatchlistMovies = ({accountId, sessionId})=>{
+export const WatchlistMovies = ({ accountId, sessionId }) => {
     return <React.Fragment>
-            <ResultTableWrapper handleFetchDataChunck={ async(setFavoriteMovies) => getWatchlist(accountId, sessionId, setFavoriteMovies)}/>
+        <ResultTableWrapper
+            options={{ liveUpdate: true }}
+            handleFetchDataChunck={
+                async (setWatchlistMovies, options) => getWatchlist(accountId, sessionId, setWatchlistMovies, options)
+            } />
     </React.Fragment>
 }

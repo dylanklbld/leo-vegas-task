@@ -13,6 +13,8 @@ const getListMoviesId = async (accountId, sessionId, getListRequest)=>{
        list.results.concat(data.map(v=>v.results).flat()).map(res=>res.id)
       )
     }
+
+    return list.results.map(res=>res.id)
   }
 
  export const getAllFavoriteIds = async(accountId, sessionId) => getListMoviesId(accountId, sessionId, getFavorites)

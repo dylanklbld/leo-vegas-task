@@ -109,7 +109,7 @@ function App() {
               </React.Fragment>
             : (searchResultData && <ResultTable data={searchResultData.results}/>)} */}
           {/* {<SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites, updateWatchlist: tryUpdateWatchlist }} />} */}
-          {/* {sessionData && <FavoriteMovies sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']}/>} */}
+          {/* {} */}
           {/* {accountData && accountData['id'] && <WatchlistMovies sessionId={sessionIdData['session_id']} accountId={accountData['id']} />} */}
         </div>
         <Router>
@@ -124,12 +124,23 @@ function App() {
             </ul>
             </nav>
             <hr />
-            <Switch>
-                <Route exact path='/' component={()=><PopularMoviesTable />} />
-                <Route path='/search' component={()=><SearchMoviesComponent {...{ favoriteIds, updateFavoritesList: tryUpdateFavorites, updateWatchlist: tryUpdateWatchlist }} />} />
-                <Route path='/watchlist' component={()=><PopularMoviesTable />} />
-                <Route path='/favorites' component={()=><PopularMoviesTable />} />
-            </Switch>
+              <Switch>
+                <Route exact path='/' render={() => <PopularMoviesTable />} />
+                <Route path='/search' render={() => 
+                <React.Fragment>
+                  <SearchMoviesComponent {...{ favoriteIds, watchlistIds, updateFavoritesList: tryUpdateFavorites, updateWatchlist: tryUpdateWatchlist }} />
+                </React.Fragment>
+                } />
+                <Route path='/favorites' component={() => (
+                  sessionData &&
+                  <FavoriteMovies {...{ favoriteIds}}
+                   sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']} />)} />
+                <Route path='/watchlist' component={() => (
+                  sessionData &&
+                  <WatchlistMovies  {...{ watchlistIds}}
+                  sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']} />
+                )} />
+              </Switch>
           </div>
         </Router>
         </div>

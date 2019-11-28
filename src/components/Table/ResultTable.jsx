@@ -8,12 +8,17 @@ import ScrollToTopButton from '../ScrollToButton'
 import useEffectExceptMount from '../../hooks/useEffectExceptMount'
 import {useIsInView} from '../../hooks/useIsInVIew'
 
-export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, watchlistIds, favoritesUpdater, watchlistUpdater, options }) => {
+export const ResultTableWrapper = ({
+    title, 
+    handleFetchDataChunck, 
+    favoriteIds, watchlistIds, 
+    favoritesUpdater, watchlistUpdater, 
+    options 
+}) => {
     const [chunckData, setChunckData] = useState(null)
     const [fullData, setFullData] = useState([])
     const [page, setPage] = useState(1)    
     const [isBusy, setIsBusy] = useState(false)
-
     const [totalPages, setTotalPages] = useState(1)
 
     useEffect(()=>{
@@ -24,9 +29,17 @@ export const ResultTableWrapper = ({title, handleFetchDataChunck, favoriteIds, w
     useEffectExceptMount(()=>{
         if(chunckData){
             setTotalPages(chunckData['total_pages'])
-            setFullData(fullData.concat(chunckData.results))
+            setFullData([...fullData, ...chunckData.results])
         }
     }, [chunckData])
+
+    // useEffectExceptMount(()=>{
+    //     // in case we are updating fav/watchlist live
+    //     if(options && options.liveUpdate){
+    //         setFullData([])
+    //         handleFetchDataChunck(setChunckData)
+    //     }
+    // }, [favoriteIds, watchlistIds])
 
 
     return fullData && <ResultTableComponent {...{title, isBusy, favoriteIds, watchlistIds, favoritesUpdater, watchlistUpdater}} 
@@ -48,7 +61,10 @@ ResultTableWrapper.propTypes={
 
 const WatchlistButton = ({isInWatchlist, movieId, toggleInList=()=>{}}) => {
     return <div className="watchlist">
-        <button className={isInWatchlist ? "in-watchlist" : "not-in-watchlist"} onClick={() => toggleInList(movieId, isInWatchlist)} />
+        <button className={isInWatchlist ? "in-watchlist" : "not-in-watchlist"} 
+            onClick={() => toggleInList(movieId, isInWatchlist)} >
+            {isInWatchlist ? "-W" : "ADD +W"}
+        </button>
     </div>
 }
 
@@ -56,11 +72,7 @@ const FavoritesButton = ({isFavorite, movieId, toggleInList=()=>{}}) => {
     return (
       <div className="favorites">
         <button onClick={() => toggleInList(movieId, isFavorite)}>
-          {isFavorite ? (
-            <i class="fa fa-heart" aria-hidden="true"></i>
-          ) : (
-            <i class="fa" aria-hidden="true"></i>
-          )}
+          {isFavorite ? "-FAV" : "ADD +FAV"}
         </button>
       </div>
     );

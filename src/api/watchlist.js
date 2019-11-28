@@ -2,12 +2,16 @@
 const API = 'https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 
-export const getWatchlist = async (accountId, sessionId, handleSetData) => {
+export const getWatchlist = async (accountId, sessionId, handleSetData, options = {}) => {
     return await fetch(
-        `${API}account/${accountId}/watchlist/movies?` + new URLSearchParams({
+        `${API}account/${accountId}/watchlist/movies?` + new URLSearchParams(Object.assign({
             api_key: apiKey,
             session_id: sessionId
-        }),
+        }, options.page
+            ? {
+                page: options.page
+            }
+            : {})),
         {
             method: "GET",
         }
