@@ -2,43 +2,43 @@ import { readCookie, removeCookie, writeCookie } from '../utils/cookie'
 
 import { getAccountInfo } from './account'
 
-const API='https://api.themoviedb.org/3/'
+const API = 'https://api.themoviedb.org/3/'
 const apiKey = 'e4d1e79ae2ef4e5d3a28898c3e0c7d85'
 
 const localhostUrl = `http://localhost:3000`
 const getMovieDbPermissionLink = (requestToken) => `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${localhostUrl}`
 
-const getRequestToken = async ()=>{
+const getRequestToken = async () => {
     const token = await fetch(
-        `${API}authentication/token/new?`  + new URLSearchParams({
+        `${API}authentication/token/new?` + new URLSearchParams({
             api_key: apiKey
         }),
         {
-        method: "GET",
+            method: "GET",
         }
     )
         .then(res => res.json())
         .then(response =>
-        response
+            response
         )
         .catch(error => console.log(error))
 
     return token
 }
 
-const getNewSessionId = async(requestToken)=>{
+const getNewSessionId = async (requestToken) => {
     const sessionId = await fetch(
-        `${API}authentication/session/new?`  + new URLSearchParams({
+        `${API}authentication/session/new?` + new URLSearchParams({
             api_key: apiKey
         }),
         {
             method: "POST",
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({request_token: requestToken})
+            body: JSON.stringify({ request_token: requestToken })
         }
-        )
+    )
         .then(res => res.json())
         .then(response =>
             response
@@ -50,28 +50,22 @@ const getNewSessionId = async(requestToken)=>{
 
 const deleteSession = async (sessionId) => {
     return await fetch(
-        `${API}authentication/session?`  + new URLSearchParams({
+        `${API}authentication/session?` + new URLSearchParams({
             api_key: apiKey
         }),
         {
             method: "DELETE",
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({session_id: sessionId})
+            body: JSON.stringify({ session_id: sessionId })
         }
-        )
+    )
         .then(res => res.json())
         .then(response =>
             response
         )
         .catch(error => console.log(error))
-}
-
-const checkStatus = (response)=> {
-    if (response.success === false){
-        throw new Error()
-    }
 }
 
 export const authentication = async () => {
@@ -84,10 +78,10 @@ export const authentication = async () => {
 export const establishSession = async (handleSetSession, requestToken) => {
     const sessionId = await getNewSessionId(requestToken)
     writeCookie('session_id', sessionId['session_id'])
-    
+
     const accountId = await getAccountInfo(sessionId['session_id'])
     writeCookie('account_id', accountId['id'])
-    
+
     handleSetSession({
         sessionId,
         accountId
@@ -104,11 +98,11 @@ export const deauthentication = async () => {
     window.location.replace(localhostUrl)
 }
 
-export const establishSessionFromCookies =  async (handleSetSession) => {
-    const sessionId  = readCookie('session_id')
+export const establishSessionFromCookies = async (handleSetSession) => {
+    const sessionId = readCookie('session_id')
     const accountId = readCookie('account_id')
-    
-    if(sessionId && accountId){
+
+    if (sessionId && accountId) {
         return handleSetSession({
             sessionId: {
                 'session_id': sessionId
@@ -118,8 +112,7 @@ export const establishSessionFromCookies =  async (handleSetSession) => {
             }
         })
     }
-    
+
     return false
 }
- 
- 
+

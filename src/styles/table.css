@@ -83,3 +83,24 @@ table th {
     border-bottom: 0;
   }
 }
+
+.leo-task-to-top {
+  position: fixed;
+  background-color: green;
+  font-size: 20px;
+  bottom: 20px;
+  right: 20px;
+  z-index: 400;
+  -webkit-transition: opacity 500ms ease-out;
+  transition: opacity 500ms ease-out;
+}
+
+.leo-task-to-top:hover{
+  font-weight: bold;
+}
+
+.leo-task-load-more-button {
+  background-color: gray;
+  font-size: 20px;
+}
+
