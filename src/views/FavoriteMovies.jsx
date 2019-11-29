@@ -7,7 +7,7 @@ const FavoritesButton = ({ isFavorite, movieId, toggleInList = () => { } }) => {
     return (
         <div className="favorites">
             <button onClick={() => toggleInList(movieId, isFavorite)}>
-                {isFavorite ? "Remove from list" : "ADD +FAV"}
+                {isFavorite ? "Remove from list" : "ADD as FAV"}
             </button>
         </div>
     );
@@ -25,7 +25,7 @@ export const FavoriteMovies = ({ accountId, sessionId, favoriteIds, updateFavori
                     renderButtons={() =>
                         <React.Fragment>
                             {favoriteIds &&
-                                <FavoritesButton toggleInList={updateFavorites} isInWatchlist={favoriteIds.includes(movieId)} {...{ movieId }} />}
+                                <FavoritesButton toggleInList={updateFavorites} isFavorite={favoriteIds.includes(movieId)} {...{ movieId }} />}
                         </React.Fragment>
                     }
                 />

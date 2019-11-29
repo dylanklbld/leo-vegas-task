@@ -18,7 +18,7 @@ import { getAccountInfo } from './api/account'
 
 function App() {
   const [sessionData, setSessionData] = useState(null)
-  const [errors, setErrors] = useState(null)
+  const [error, setError] = useState(null)
   const [favoriteIds, setFavoriteIds] = useState(null)
   const [watchlistIds, setWatchlistIds] = useState(null)
 
@@ -28,11 +28,11 @@ function App() {
   }
 
   const trySetSessionAfterRedirect = async () => {
-    if (window && window.location.search) {
+    if (!sessionData && window && window.location.search) {
       const url = new URL(window.location.href)
 
       if (url.searchParams && url.searchParams.get("request_token")) {
-        await establishSession(setSessionData, url.searchParams.get("request_token"))
+        await establishSession(setSessionData, url.searchParams.get("request_token"), setError)
       }
     }
   }
@@ -46,6 +46,15 @@ function App() {
       await trySetSessionAfterRedirect()
     }
   }
+
+  useEffect(() => {
+    if (error) {
+      if (window.confirm(error)) {
+        setError(null)
+      }
+    }
+
+  }, [error])
 
   const tryUpdateList = async (movieId, status, list, updateList, apiCallAdd, apiCallRemove) => {
     if (status) {
@@ -107,7 +116,7 @@ function App() {
               <h2>The Movie DB related task</h2>
               <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <ul className="navbar-nav mr-auto">
-                  <li><Link to={'/'} className="nav-link"> Home </Link></li>
+                  <li><Link to={'/'} className="nav-link"> Popular movies now </Link></li>
                   <li><Link to={'/search'} className="nav-link">Search</Link></li>
                   <li><Link to={'/watchlist'} className="nav-link">Watchlist</Link></li>
                   <li><Link to={'/favorites'} className="nav-link">Favorite Movies</Link></li>
@@ -124,14 +133,14 @@ function App() {
                     }} />
                   </React.Fragment>
                 } />
-                <Route path='/favorites' render={() => (
+                <Route path='/favorites' component={() => (
                   sessionData &&
                   <FavoriteMovies {...{
                     favoriteIds,
-                    updateFavoritesList: tryUpdateFavorites
+                    updateFavorites: tryUpdateFavorites
                   }}
                     sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']} />)} />
-                <Route path='/watchlist' render={() => (
+                <Route path='/watchlist' component={() => (
                   sessionData &&
                   <WatchlistMovies  {...{ watchlistIds, updateWatchlist: tryUpdateWatchlist }}
                     sessionId={sessionData.sessionId['session_id']} accountId={sessionData.accountId['id']} />

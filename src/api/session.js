@@ -17,7 +17,13 @@ const getRequestToken = async () => {
             method: "GET",
         }
     )
-        .then(res => res.json())
+        .then(response => {
+            if (response.status >= 400 && response.status < 600) {
+                throw new Error(response['status_message']);
+            }
+
+            return response.json()
+        })
         .then(response =>
             response
         )
@@ -39,7 +45,13 @@ const getNewSessionId = async (requestToken) => {
             body: JSON.stringify({ request_token: requestToken })
         }
     )
-        .then(res => res.json())
+        .then(response => {
+            if (response.status >= 400 && response.status < 600) {
+                throw new Error(response['status_message']);
+            }
+
+            return response.json()
+        })
         .then(response =>
             response
         )
@@ -61,7 +73,13 @@ const deleteSession = async (sessionId) => {
             body: JSON.stringify({ session_id: sessionId })
         }
     )
-        .then(res => res.json())
+        .then(response => {
+            if (response.status >= 400 && response.status < 600) {
+                throw new Error(response['status_message']);
+            }
+
+            return response.json()
+        })
         .then(response =>
             response
         )
@@ -75,17 +93,22 @@ export const authentication = async () => {
     window.location.replace(getMovieDbPermissionLink(requestToken['request_token']))
 }
 
-export const establishSession = async (handleSetSession, requestToken) => {
-    const sessionId = await getNewSessionId(requestToken)
-    writeCookie('session_id', sessionId['session_id'])
+export const establishSession = async (handleSetSession, requestToken, handleError) => {
+    try {
+        const sessionId = await getNewSessionId(requestToken)
+        writeCookie('session_id', sessionId['session_id'])
 
-    const accountId = await getAccountInfo(sessionId['session_id'])
-    writeCookie('account_id', accountId['id'])
+        const accountId = await getAccountInfo(sessionId['session_id'])
+        writeCookie('account_id', accountId['id'])
 
-    handleSetSession({
-        sessionId,
-        accountId
-    })
+        handleSetSession({
+            sessionId,
+            accountId
+        })
+    } catch (error) {
+        console.log('error')
+        handleError(error)
+    }
 }
 
 export const deauthentication = async () => {

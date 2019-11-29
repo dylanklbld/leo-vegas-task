@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, wait, waitForDomChange } from '@testing-library/react'
 
 import React from 'react'
 import { SimpleSearchField } from '../SearchField'
@@ -12,14 +12,16 @@ it('should render', () => {
 })
 
 
-it('should call onSearchRequestDone', () => {
-    const onSearchRequestDone = jest.fn().mockName('onSearchRequestDone')
-    const { container } = render(<SimpleSearchField onSearchRequestDone={onSearchRequestDone} />)
+it('should call onSearchValueChanged', async () => {
+    const onSearchValueChanged = jest.fn().mockName('onSearchValueChanged')
+    const { container } = render(<SimpleSearchField onSearchValueChanged={onSearchValueChanged} />)
 
     expect(container).toMatchSnapshot()
-
+    await wait()
     const inputField = container.querySelector('.leo-task-search-input-field')
     fireEvent.change(inputField, { target: { value: 'Color' } })
 
-    expect(onSearchRequestDone).toHaveBeenCalledWith({})
+    await new Promise(resolve => setTimeout(resolve, 600))
+
+    expect(onSearchValueChanged).toHaveBeenCalledWith("Color")
 })

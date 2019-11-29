@@ -2,82 +2,23 @@
 
 exports[`should render empty 1`] = `
 <div>
-  <table>
-    <caption>
-      Empty
-    </caption>
-    <thead>
-      <tr>
-        <th
-          scope="col"
-        >
-          Movie
-        </th>
-        <th
-          scope="col"
-        >
-          Overview
-        </th>
-        <th
-          scope="col"
-        >
-          Rating
-        </th>
-        <th
-          scope="col"
-        >
-          Genres
-        </th>
-      </tr>
-    </thead>
-    <tbody />
-  </table>
   <div>
-    Done
+    No Data
   </div>
 </div>
 `;
 
 exports[`should render multi page table 1`] = `
 <div>
-  <table>
-    <caption>
-      Empty
-    </caption>
-    <thead>
-      <tr>
-        <th
-          scope="col"
-        >
-          Movie
-        </th>
-        <th
-          scope="col"
-        >
-          Overview
-        </th>
-        <th
-          scope="col"
-        >
-          Rating
-        </th>
-        <th
-          scope="col"
-        >
-          Genres
-        </th>
-      </tr>
-    </thead>
-    <tbody />
-  </table>
   <div>
-    Done
+    No Data
   </div>
 </div>
 `;
 
 exports[`should render one page table 1`] = `
 <div>
+  <div />
   <table>
     <caption>
       One page
@@ -99,32 +40,13 @@ exports[`should render one page table 1`] = `
         >
           Rating
         </th>
-        <th
-          scope="col"
-        >
-          Genres
-        </th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td
           data-label="Movie"
-        >
-          <div
-            class="container"
-          >
-            <div
-              class="poster"
-            >
-              <img
-                alt="Naked Gun 33⅓: The Final Insult"
-                class="fit-picture"
-                src="https://image.tmdb.org/t/p/w500/k3F8N3jeqXOpm1qjY7mL8O6vdx.jpg"
-              />
-            </div>
-          </div>
-        </td>
+        />
         <td
           data-label="Overview"
         >
@@ -135,28 +57,11 @@ exports[`should render one page table 1`] = `
         >
           6.5
         </td>
-        <td
-          data-label="Genres"
-        />
       </tr>
       <tr>
         <td
           data-label="Movie"
-        >
-          <div
-            class="container"
-          >
-            <div
-              class="poster"
-            >
-              <img
-                alt="The Naked Gun 2½: The Smell of Fear"
-                class="fit-picture"
-                src="https://image.tmdb.org/t/p/w500/qrjwY4wXu54rhpuwrfq7lojGMka.jpg"
-              />
-            </div>
-          </div>
-        </td>
+        />
         <td
           data-label="Overview"
         >
@@ -167,28 +72,11 @@ exports[`should render one page table 1`] = `
         >
           6.8
         </td>
-        <td
-          data-label="Genres"
-        />
       </tr>
       <tr>
         <td
           data-label="Movie"
-        >
-          <div
-            class="container"
-          >
-            <div
-              class="poster"
-            >
-              <img
-                alt="The Naked Gun: From the Files of Police Squad!"
-                class="fit-picture"
-                src="https://image.tmdb.org/t/p/w500/gajZQkZjVXPuLJUMoEk1eVeZz61.jpg"
-              />
-            </div>
-          </div>
-        </td>
+        />
         <td
           data-label="Overview"
         >
@@ -199,28 +87,11 @@ exports[`should render one page table 1`] = `
         >
           7.2
         </td>
-        <td
-          data-label="Genres"
-        />
       </tr>
       <tr>
         <td
           data-label="Movie"
-        >
-          <div
-            class="container"
-          >
-            <div
-              class="poster"
-            >
-              <img
-                alt="Naked Gun"
-                class="fit-picture"
-                src="https://image.tmdb.org/t/p/w500/n3cEMI1HnJn70V2msIawX8UM5vS.jpg"
-              />
-            </div>
-          </div>
-        </td>
+        />
         <td
           data-label="Overview"
         >
@@ -231,28 +102,11 @@ exports[`should render one page table 1`] = `
         >
           9
         </td>
-        <td
-          data-label="Genres"
-        />
       </tr>
       <tr>
         <td
           data-label="Movie"
-        >
-          <div
-            class="container"
-          >
-            <div
-              class="poster"
-            >
-              <img
-                alt="裸女と拳銃"
-                class="fit-picture"
-                src="https://image.tmdb.org/t/p/w500/3i1JU9RaStlcroyGqYmRsIIn1xv.jpg"
-              />
-            </div>
-          </div>
-        </td>
+        />
         <td
           data-label="Overview"
         >
@@ -263,14 +117,24 @@ exports[`should render one page table 1`] = `
         >
           0
         </td>
-        <td
-          data-label="Genres"
-        />
       </tr>
     </tbody>
   </table>
   <div>
-    Done
+    Finish
   </div>
+  <button
+    class="leo-task-to-top"
+  >
+    <span
+      class="text"
+    >
+      backToTopButton
+    </span>
+    <i
+      aria-hidden="true"
+      class="fa fa-arrow-up"
+    />
+  </button>
 </div>
 `;

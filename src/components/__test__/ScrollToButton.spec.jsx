@@ -16,17 +16,17 @@ afterEach(() => {
 
 const renderScrollToButton = props => render(<ScrollToButton {...defaultProps} {...props} />)
 
-describe('ScrollToButton', function() {
-  it('should render correctly', function() {
+describe('ScrollToButton', function () {
+  it('should render correctly', function () {
     const { container } = renderScrollToButton()
     expect(container).toMatchSnapshot()
   })
 
-  it('should call the window.scrollTo function with scroll behavior', function() {
+  it('should call the window.scrollTo function with scroll behavior', function () {
     document.documentElement.style.setProperty('scroll-behavior', 'anystring')
 
     const { getByText } = renderScrollToButton()
-    const scrollButton = getByText('components.backToTopButton.label')
+    const scrollButton = getByText('backToTopButton')
     fireEvent.click(scrollButton)
     expect(window.scrollTo).toBeCalledWith({
       left: 0,

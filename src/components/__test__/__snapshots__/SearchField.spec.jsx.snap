@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should call onSearchRequestDone 1`] = `
+exports[`should call onSearchValueChanged 1`] = `
 <div>
   <div
     class="leo-task-search-field"
@@ -10,6 +10,8 @@ exports[`should call onSearchRequestDone 1`] = `
     </span>
     <input
       class="leo-task-search-input-field"
+      placeholder="Search for a movie..."
+      type="text"
       value=""
     />
     <div />
@@ -27,6 +29,8 @@ exports[`should render 1`] = `
     </span>
     <input
       class="leo-task-search-input-field"
+      placeholder="Search for a movie..."
+      type="text"
       value=""
     />
     <div />
